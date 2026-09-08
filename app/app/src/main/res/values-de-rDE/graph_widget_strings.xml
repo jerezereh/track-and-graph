@@ -1,0 +1,12 @@
+<resources>
+    <string name="graph_widget_name">Diagramm und Erfassung</string>
+    <string name="graph_widget_select_graph">Ein Liniendiagramm auswählen</string>
+    <string name="graph_widget_select_tracker">Die Erfassung für neue Daten auswählen</string>
+    <string name="graph_widget_line_graphs_only">Dieses Widget unterstützt derzeit Liniendiagramme. Wähle ein gespeichertes Liniendiagramm aus.</string>
+    <string name="graph_widget_add">Daten hinzufügen</string>
+    <string name="graph_widget_add_to">Daten zu %1$s hinzufügen</string>
+    <string name="graph_widget_configure">Diagramm-Widget konfigurieren</string>
+    <string name="graph_widget_loading">Diagramm wird geladen…</string>
+    <string name="graph_widget_missing">Diagramm oder Erfassung fehlt. Tippe auf Einstellungen, um sie erneut auszuwählen.</string>
+    <string name="graph_widget_error">Diagramm kann nicht geladen werden. Prüfe es in der App oder wähle es erneut aus.</string>
+</resources>

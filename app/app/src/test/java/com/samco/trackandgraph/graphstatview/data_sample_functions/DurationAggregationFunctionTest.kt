@@ -45,8 +45,12 @@ class DurationAggregationFunctionTest {
 
     @Test
     fun calculateDurationAccumulatedValues_DateTimeOffset_test() {
-        //A data point with the time stamp:2021-10-04T00:20:00.197+01:00 should appear in the week
-        // 10-04, (not the previous week). Assuming the user has a current time zone offset of +01:00
+        // Monday just after midnight in London belongs to that local week, including
+        // across the October DST transition. Do not depend on the host machine's zone.
+        val timeHelper = TimeHelper(
+            this.timeHelper.aggregationPreferences,
+            ZoneId.of("Europe/London"),
+        )
 
         runBlocking {
             //GIVEN
@@ -79,7 +83,7 @@ class DurationAggregationFunctionTest {
                 //"2021-10-31T23:59:59.999999999+01:00",
                 //"2021-11-07T23:59:59.999999999+01:00"
             ).map {
-                ZonedDateTime.of(2021, it.first, it.second, 0, 0, 0, 0, ZoneId.systemDefault())
+                ZonedDateTime.of(2021, it.first, it.second, 0, 0, 0, 0, timeHelper.zoneId)
                     .minusNanos(1)
                     .toOffsetDateTime()
             }

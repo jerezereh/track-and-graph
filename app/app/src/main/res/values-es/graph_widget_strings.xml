@@ -1,0 +1,12 @@
+<resources>
+    <string name="graph_widget_name">Gráfico y registro</string>
+    <string name="graph_widget_select_graph">Seleccionar un gráfico de líneas</string>
+    <string name="graph_widget_select_tracker">Seleccionar el registro al que añadir datos</string>
+    <string name="graph_widget_line_graphs_only">Este widget admite actualmente gráficos de líneas. Selecciona un gráfico de líneas guardado.</string>
+    <string name="graph_widget_add">Añadir datos</string>
+    <string name="graph_widget_add_to">Añadir datos a %1$s</string>
+    <string name="graph_widget_configure">Configurar widget de gráfico</string>
+    <string name="graph_widget_loading">Cargando gráfico…</string>
+    <string name="graph_widget_missing">No se encuentra el gráfico o el registro. Toca ajustes para seleccionarlos de nuevo.</string>
+    <string name="graph_widget_error">No se puede cargar el gráfico. Compruébalo en la aplicación o selecciónalo de nuevo.</string>
+</resources>

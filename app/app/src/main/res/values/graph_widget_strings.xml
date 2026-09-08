@@ -1,0 +1,12 @@
+<resources>
+    <string name="graph_widget_name">Graph &amp; Track</string>
+    <string name="graph_widget_select_graph">Select a line graph</string>
+    <string name="graph_widget_select_tracker">Select the tracker to add data to</string>
+    <string name="graph_widget_line_graphs_only">This widget currently supports line graphs. Select a saved line graph.</string>
+    <string name="graph_widget_add">Add data</string>
+    <string name="graph_widget_add_to">Add data to %1$s</string>
+    <string name="graph_widget_configure">Configure graph widget</string>
+    <string name="graph_widget_loading">Loading graph…</string>
+    <string name="graph_widget_missing">The graph or tracker is missing. Tap settings to select them again.</string>
+    <string name="graph_widget_error">Unable to load graph. Check the graph in the app or select it again.</string>
+</resources>

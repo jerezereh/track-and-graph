@@ -17,6 +17,11 @@ docs:
     description: Choosing shared dialog wrappers, adaptive content, asynchronous focus policy, content-only screens, Navigation 3 destination ViewModels and retained-entry state, standalone dialog ViewModel scopes, and reliable previews.
     keywords: [dialog, CustomDialog, CustomContinueCancelDialog, ContinueCancelDialogContent, ContinueCancelButtons, padding, scrolling, adaptive height, keyboard, focus, FocusRequester, asynchronous, loading-state, preview, Navigation 3, ViewModelStore, rememberViewModelStoreOwner, rememberUpdatedState, entryProvider, retained-entry, hiltViewModel, configuration-change, nested-navigation, reset-callback, onPop]
 
+  - file: graph-widgets.md
+    title: Graph home-screen widgets in the jerezereh fork
+    description: Saved line graph widget with quick tracker entry, separate installation, refresh and validation.
+    keywords: [widget, graph, fork, GraphWidgetProvider, GraphWidgetWorker, bitmap]
+
   - file: graph-rendering.md
     title: Graph rendering — renderer-neutral view data and Vico bar charts
     description: Incremental AndroidPlot migration architecture; bar-chart factories emit plain Kotlin series and bounds, while the Compose UI owns Vico models, styling, axes, zoom, and marker interactions.
