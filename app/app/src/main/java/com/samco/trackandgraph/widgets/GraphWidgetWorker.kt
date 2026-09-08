@@ -91,7 +91,7 @@ class GraphWidgetWorker @AssistedInject constructor(
             showMessage(views, R.string.graph_widget_line_graphs_only)
             return
         }
-        val data = lineGraphDataFactory.createViewData(graph) {}
+        val data = lineGraphDataFactory.getViewData(graph)
         if (data.state != IGraphStatViewData.State.READY) {
             showMessage(views, R.string.graph_widget_error)
             return
