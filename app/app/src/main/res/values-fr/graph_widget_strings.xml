@@ -1,0 +1,12 @@
+<resources>
+    <string name="graph_widget_name">Graphique et suivi</string>
+    <string name="graph_widget_select_graph">Sélectionner un graphique en courbes</string>
+    <string name="graph_widget_select_tracker">Sélectionner le suivi auquel ajouter des données</string>
+    <string name="graph_widget_line_graphs_only">Ce widget prend actuellement en charge les graphiques en courbes. Sélectionnez un graphique en courbes enregistré.</string>
+    <string name="graph_widget_add">Ajouter des données</string>
+    <string name="graph_widget_add_to">Ajouter des données à %1$s</string>
+    <string name="graph_widget_configure">Configurer le widget graphique</string>
+    <string name="graph_widget_loading">Chargement du graphique…</string>
+    <string name="graph_widget_missing">Le graphique ou le suivi est introuvable. Touchez les paramètres pour les sélectionner à nouveau.</string>
+    <string name="graph_widget_error">Impossible de charger le graphique. Vérifiez le graphique dans l’application ou sélectionnez-le à nouveau.</string>
+</resources>

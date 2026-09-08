@@ -39,7 +39,7 @@ android {
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 
     defaultConfig {
-        applicationId = "com.samco.trackandgraph"
+        applicationId = "com.jerezereh.trackandgraph"
         //If the backup file is not backwards compatible after this update, upgrade the major version number!
         versionCode = 800030
         versionName = "10.4.0"
@@ -68,7 +68,7 @@ android {
                 "proguard-rules.pro"
             )
             applicationIdSuffix = ".debug"
-            resValue("string", "app_name", "Debug Track & Graph")
+            resValue("string", "app_name", "Graph & Track (Debug)")
             manifestPlaceholders["ALLOW_CLEAR_TEXT"] = "false"
             manifestPlaceholders["NETWORK_SECURITY_CONFIG"] = "@xml/debug_network_security_config"
             manifestPlaceholders["recreateAlarmsEnabled"] = "true"
@@ -81,7 +81,7 @@ android {
                 "proguard-rules.pro"
             )
             applicationIdSuffix = ".debug.minify"
-            resValue("string", "app_name", "Debug Minify Track & Graph")
+            resValue("string", "app_name", "Graph & Track (Minify)")
             signingConfig = signingConfigs.getByName("debug")
             manifestPlaceholders["ALLOW_CLEAR_TEXT"] = "false"
             manifestPlaceholders["NETWORK_SECURITY_CONFIG"] =
@@ -96,7 +96,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            resValue("string", "app_name", "Track & Graph")
+            resValue("string", "app_name", "Graph & Track")
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
             manifestPlaceholders["ALLOW_CLEAR_TEXT"] = "false"
             manifestPlaceholders["NETWORK_SECURITY_CONFIG"] =

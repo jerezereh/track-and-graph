@@ -1,0 +1,4 @@
+<resources>
+    <color name="graph_widget_background">#201A18</color>
+    <color name="graph_widget_text">#F0DFD9</color>
+</resources>

@@ -103,7 +103,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:taskAffinity="com.samco.trackandgraph.widgets.TrackWidgetInputDataPointActivity"
+            android:taskAffinity="${applicationId}.widgets.TrackWidgetInputDataPointActivity"
             android:theme="@style/TransparentTheme"
             />
 
@@ -138,6 +138,24 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
+        <activity
+            android:name=".widgets.GraphWidgetConfigureActivity"
+            android:exported="true"
+            android:label="@string/graph_widget_configure"
+            android:theme="@style/TransparentTheme">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".widgets.GraphWidgetProvider"
+            android:exported="false" android:label="@string/graph_widget_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/graph_widget_info" />
+        </receiver>
+
         <!-- New Glance-based widget receiver -->
         <receiver
             android:name="com.samco.trackandgraph.base.service.TrackWidgetProvider"

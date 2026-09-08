@@ -18,7 +18,13 @@
 package com.samco.trackandgraph.graphstatview.ui
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.LayoutInflater
+import android.view.View
+import android.text.TextUtils
+import android.text.TextPaint
 import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.compose.foundation.layout.Column
@@ -435,4 +441,82 @@ private fun setTimeMarker(
         )
     )
     binding.xyPlot.redraw()
+}
+
+/** Render the same saved line graph as the app, without attaching a View to a window.
+ * Must be called on the main thread. The caller bounds the bitmap's pixel count for widget IPC.
+ */
+internal fun renderLineGraphWidgetBitmap(
+    context: Context,
+    data: ILineGraphViewData,
+    width: Int,
+    height: Int,
+    @ColorInt foreground: Int,
+    @ColorInt background: Int,
+): Bitmap {
+    val binding = GraphXyPlotBinding.inflate(LayoutInflater.from(context))
+    val plot = binding.xyPlot
+    xyPlotSetup(plot, foreground, background)
+    drawLineGraphFeatures(context, binding, data.lines, true, foreground)
+    setUpLineGraphXAxis(context, binding, data.endTime)
+    setUpXYPlotYAxis(binding, data.yAxisSubdivides, data.durationBasedRange)
+    val bounds = RectRegion().apply {
+        set(data.bounds.minX, data.bounds.maxX, data.bounds.minY, data.bounds.maxY)
+    }
+    // Degenerate constant series still need a non-zero plot area and finite label padding.
+    val minY = bounds.minY?.toDouble() ?: 0.0
+    val maxY = bounds.maxY?.toDouble() ?: 1.0
+    require(minY.isFinite() && maxY.isFinite() && maxY >= minY)
+    if (minY == maxY) {
+        val padding = max(1.0, abs(minY) * 0.05)
+        bounds.minY = minY - padding
+        bounds.maxY = maxY + padding
+    }
+    val minX = bounds.minX?.toDouble() ?: -1.0
+    val maxX = bounds.maxX?.toDouble() ?: 0.0
+    require(minX.isFinite() && maxX.isFinite() && maxX >= minX)
+    if (minX == maxX) {
+        bounds.minX = minX - 1.0
+        bounds.maxX = maxX + 1.0
+    }
+    setLineGraphBounds(context, binding, bounds, data.yRangeType, data.endTime, true)
+    // Three labels remain readable at home-screen sizes.
+    plot.setDomainStep(StepMode.SUBDIVIDE, 3.0)
+    plot.setRangeStep(StepMode.SUBDIVIDE, 3.0)
+    for (edge in listOf(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM)) {
+        plot.graph.getLineLabelStyle(edge).paint.color = foreground
+    }
+    val density = context.resources.displayMetrics.density
+    val legendPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = foreground
+        textSize = 11 * density
+    }
+    val legendHeight = (18 * density).toInt().coerceAtMost(height / 4)
+    val plotHeight = (height - legendHeight).coerceAtLeast(1)
+    plot.measure(
+        View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+        View.MeasureSpec.makeMeasureSpec(plotHeight, View.MeasureSpec.EXACTLY),
+    )
+    plot.layout(0, 0, width, plotHeight)
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    canvas.drawColor(background)
+    plot.draw(canvas)
+    // One bounded legend row. Series names and colors follow the saved graph.
+    val lines = data.lines.filter { it.line != null }
+    if (lines.isNotEmpty()) {
+        val cellWidth = width.toFloat() / lines.size
+        lines.forEachIndexed { index, line ->
+            val x = index * cellWidth
+            legendPaint.color = getColorInt(line.color)
+            canvas.drawCircle(x + 5 * density, plotHeight + legendHeight / 2f, 3 * density, legendPaint)
+            legendPaint.color = foreground
+            val label = TextUtils.ellipsize(line.name, legendPaint,
+                (cellWidth - 16 * density).coerceAtLeast(0f), TextUtils.TruncateAt.END).toString()
+            canvas.drawText(label, x + 12 * density,
+                plotHeight + legendHeight / 2f - (legendPaint.ascent() + legendPaint.descent()) / 2f,
+                legendPaint)
+        }
+    }
+    return bitmap
 }

@@ -50,6 +50,8 @@ import com.samco.trackandgraph.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -160,6 +162,12 @@ class TrackWidgetInputDataPointActivity : AppCompatActivity() {
             )
         )
 
+        fun createInputIntent(context: Context, featureId: Long): Intent =
+            Intent(context, TrackWidgetInputDataPointActivity::class.java).apply {
+                putExtra(EXTRA_FEATURE_ID, featureId)
+                putExtra(EXTRA_IS_STOP_TIMER, false)
+            }
+
         fun createStopTimerIntent(context: Context, featureId: Long): Intent {
             return Intent(context, TrackWidgetInputDataPointActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -222,11 +230,13 @@ class TrackWidgetInputDataPointViewModel @Inject constructor(
         }
     }
 
-    fun addDefaultDataPoint() {
+    private var defaultSave: Deferred<Unit>? = null
+
+    suspend fun addDefaultDataPoint() {
         val currentData = _dialogData.value
         if (currentData is DialogData.Valid) {
             val tracker = currentData.tracker
-            viewModelScope.launch(io) {
+            val save = defaultSave ?: viewModelScope.async(io) {
                 val newDataPoint = DataPoint(
                     timestamp = OffsetDateTime.now(),
                     featureId = tracker.featureId,
@@ -235,7 +245,9 @@ class TrackWidgetInputDataPointViewModel @Inject constructor(
                     note = ""
                 )
                 dataInteractor.insertDataPoint(newDataPoint)
-            }
+                Unit
+            }.also { defaultSave = it }
+            save.await()
         }
     }
 }
